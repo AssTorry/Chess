@@ -21,7 +21,7 @@ public class KingImpl extends King {
     @Override
     public Cell makeMove(MoveType lastRookMove) {
         //TODO реализовать логику поиска ладьи
-        position = CellKt.left(position);
+        position = CellKt.right(position);
         return position;
     }
 }

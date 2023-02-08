@@ -20,7 +20,7 @@ public class RookImpl extends Rook {
     @Override
     public Cell makeMove(Cell kingPosition) {
         //TODO реализовать логику рандомной ходьбы по доске
-        position = CellKt.left(position);
+        position = CellKt.right(position);
         return position;
     }
 }

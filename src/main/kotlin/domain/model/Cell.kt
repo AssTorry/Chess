@@ -19,6 +19,6 @@ data class Cell(
 fun Cell.coordinatesInRange(range: IntRange): Boolean = range.contains(x) && range.contains(y)
 
 /**
- * Соседняя левая клетка
+ * Соседняя правая клетка
  */
-fun Cell.left(): Cell = copy(x = x + 1, y = y)
+fun Cell.right(): Cell = copy(x = x + 1, y = y)
