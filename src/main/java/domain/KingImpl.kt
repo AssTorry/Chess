@@ -64,9 +64,8 @@ class KingImpl : King() {
     }
 
     private fun updateRookStartPositions() {
-        if (rookStartPos + rookDelta == kingPos) {
-            rookStartPositions.remove(rookStartPos)
-        }
+        rookStartPositions.remove(kingPos - rookDelta)
+
         val gameBoardRange = (0 until GameBoard.size)
         rookStartPositions.toList().forEach { rookStartPosition ->
             val rookCurrentPos = rookStartPosition + rookDelta
