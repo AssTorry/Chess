@@ -10,11 +10,6 @@ import domain.model.MoveType
  */
 interface GameBoard {
     /**
-     * Размер доски
-     */
-    val size: Int
-
-    /**
      * Текущая клетка с королем
      */
     val kingPosition: Cell
@@ -56,4 +51,11 @@ interface GameBoard {
      * Игра была завершена
      */
     fun onStop()
+
+    companion object {
+        /**
+         * Размер доски
+         */
+        const val size: Int = 8
+    }
 }

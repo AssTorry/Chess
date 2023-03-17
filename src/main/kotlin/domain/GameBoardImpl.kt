@@ -13,7 +13,6 @@ import kotlin.math.abs
  * Реализация [GameBoard]
  */
 class GameBoardImpl : GameBoard {
-    override val size: Int = 8
     override var kingPosition: Cell = Cell()
         private set
     override var rookPosition: Cell = Cell()
@@ -101,8 +100,8 @@ class GameBoardImpl : GameBoard {
      */
     private fun updateGameStatus() {
         gameStatus = when {
-            !kingPosition.coordinatesInRange((0 until size)) -> ERROR("Король за пределами доски!")
-            !rookPosition.coordinatesInRange((0 until size)) -> ERROR("Ладья за пределами доски!")
+            !kingPosition.isInRange((0 until GameBoard.size)) -> ERROR("Король за пределами доски!")
+            !rookPosition.isInRange((0 until GameBoard.size)) -> ERROR("Ладья за пределами доски!")
             kingPosition == rookPosition -> SUCCESS
             else -> NORMAL
         }

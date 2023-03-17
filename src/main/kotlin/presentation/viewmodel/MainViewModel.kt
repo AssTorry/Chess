@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import presentation.converter.OneWayConverter
 import presentation.model.GameBoardScreenData
 import presentation.model.MainScreenData
-import java.util.Random
+import kotlin.random.Random
 
 /**
  * ViewModel для игры короля и ладьи
@@ -25,7 +25,6 @@ import java.util.Random
 class MainViewModel(
     private val king: King,
     private val rook: Rook,
-    private val random: Random,
     private val gameBoard: GameBoard,
     private val scope: CoroutineScope,
     private val converter: OneWayConverter<Cell, IntOffset>
@@ -34,6 +33,7 @@ class MainViewModel(
     private val mainScreenFlow = MutableStateFlow(MainScreenData())
     private val kingPositionFlow = MutableSharedFlow<IntOffset>(replay = 1)
     private val rookPositionFlow = MutableSharedFlow<IntOffset>(replay = 1)
+    private val rookStartPositionFlow = MutableSharedFlow<List<IntOffset>>(replay = 1)
 
     /**
      * Запустить игру
@@ -70,6 +70,7 @@ class MainViewModel(
     fun getMainScreenFlow(): StateFlow<MainScreenData> = mainScreenFlow
     fun getKingPositionFlow(): SharedFlow<IntOffset> = kingPositionFlow
     fun getRookPositionFlow(): SharedFlow<IntOffset> = rookPositionFlow
+    fun getRookStartPositionsFlow(): SharedFlow<List<IntOffset>> = rookStartPositionFlow
 
     /**
      * Сделать ход
@@ -122,6 +123,7 @@ class MainViewModel(
         gameBoard.onFigureMove(newPosition, KING)
 
         gameStatusFlow.value = gameBoard.gameStatus
+        rookStartPositionFlow.emit(king.rookStartPositions.map(converter::convert))
         kingPositionFlow.emit(converter.convert(newPosition))
     }
 
@@ -129,14 +131,15 @@ class MainViewModel(
     private fun resetReplayCache() {
         kingPositionFlow.resetReplayCache()
         rookPositionFlow.resetReplayCache()
+        rookStartPositionFlow.resetReplayCache()
     }
 
     private fun generateRandomStart(): GameBoardScreenData {
-        val startKing = random.nextInt(64)
-        var startRook = random.nextInt(64)
+        val startKing = Random.nextInt(64)
+        var startRook = Random.nextInt(64)
 
         while (startRook == startKing) {
-            startRook = random.nextInt(64)
+            startRook = Random.nextInt(64)
         }
 
         return GameBoardScreenData(

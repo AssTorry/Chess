@@ -24,7 +24,6 @@ import presentation.view.DialogView
 import presentation.view.GameBoard
 import presentation.view.GameBoardStatic
 import presentation.viewmodel.MainViewModel
-import java.util.*
 
 fun main() = application {
     val cellSizePx = with(LocalDensity.current) { 50.dp.roundToPx() }
@@ -33,7 +32,6 @@ fun main() = application {
     val viewModel = MainViewModel(
         king = KingImpl(),
         rook = RookImpl(),
-        random = Random(),
         gameBoard = GameBoardImpl(),
         scope = MainScope(),
         converter

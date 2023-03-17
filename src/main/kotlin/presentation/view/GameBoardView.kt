@@ -5,9 +5,7 @@ import androidx.compose.animation.core.VectorConverter
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.offset
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
 import presentation.viewmodel.MainViewModel
@@ -18,6 +16,10 @@ fun GameBoard(
     startKingPosition: IntOffset,
     startRookPosition: IntOffset,
 ) {
+    val rookStartPositions by viewModel.getRookStartPositionsFlow().collectAsState(emptyList())
+    for (pos in rookStartPositions) {
+        RookStartView(modifier = Modifier.offset { pos })
+    }
     GameBoardBackgroundView(
         modifier = Modifier.clickable(
             interactionSource = remember { MutableInteractionSource() },
