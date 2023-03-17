@@ -1,6 +1,8 @@
 package domain
 
 import domain.model.*
+import java.lang.Integer.max
+import kotlin.math.abs
 
 /**
  * Реализация [King].
@@ -48,7 +50,7 @@ class KingImpl : King() {
         kingPos += (rookCurrentPos - kingPos).sign
         if (kingPos == rookCurrentPos) {
             rookStartPositions.remove(rookStartPos)
-            rookStartPos = rookStartPositions.randomOrNull() ?: Cell()
+            rookStartPos = getNearestCurrentRookPos()
         }
         return kingPos
     }
@@ -74,7 +76,13 @@ class KingImpl : King() {
             }
         }
         if (!rookStartPositions.contains(rookStartPos)) {
-            rookStartPos = rookStartPositions.randomOrNull() ?: (kingPos - rookDelta)
+            rookStartPos = getNearestCurrentRookPos()
         }
     }
+
+    private fun getNearestCurrentRookPos(): Cell = rookStartPositions.minByOrNull { rookStart ->
+        val rookCurrent = rookStart + rookDelta
+        val deltaRookKing = rookCurrent - kingPos
+        max(abs(deltaRookKing.x), abs(deltaRookKing.y))
+    } ?: (kingPos - rookDelta)
 }
